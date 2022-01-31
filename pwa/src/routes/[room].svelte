@@ -75,10 +75,14 @@
     if (!text) return;
     globalThis.socket.emit("msg", { name, text });
   }
+  function back() {
+    location = "/"
+  }
 </script>
 
 <main>
   <div id="topbar">
+    <button on:click={back}> &lt</button> |
     {room_name} |
     {members_list.length} |
     {members_list.join(",")}
@@ -128,11 +132,12 @@
   }
   #topbar {
     @include section(fit-content, 85vw);
+    @include shadow;
     background-color: $dark-sec;
     padding: 10px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow:  ellipsis;
+    text-overflow: ellipsis;
   }
   #loading-screen {
     @include flex-center;
@@ -187,5 +192,18 @@
     background-color: $dark-sec;
     color: $light-pri;
     border: none;
+  }
+  button {
+  @include shadow;
+    outline: none;
+    border:none;
+    background:transparent;
+    color: $light-pri;
+    font-size: 18px;
+    cursor: pointer;
+
+    &:hover {
+      color: $hl;
+    }
   }
 </style>

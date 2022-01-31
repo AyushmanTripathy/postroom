@@ -48,6 +48,9 @@ function resetConfig() {
 
 function enter(room, host, name) {
   let firstTime = true;
+  let messages = [];
+  let members_list = [];
+
   log(yellow("connecting to " + host));
   setTimeout(() => {
     if (!firstTime) return;
@@ -61,24 +64,19 @@ function enter(room, host, name) {
     socket.emit("join", { name });
   });
   socket.on("join", ({ name, members, msgs }) => {
-    members = Object.values(members);
-    if (firstTime) {
-      log(yellow(`${room} | ${members.length} | ${members.join(",")}`));
-      for (const msg of msgs) {
-        if (!msg.system) log(yellow(`[${msg.name}] `) + msg.text);
-        else log(grey(msg.text));
-      }
-      log(grey("you joined the room."));
-      firstTime = false;
-    } else {
-      log(grey(name + " joined the room."));
-    }
+    members_list = Object.values(members);
+    messages = msgs;
+    render(room, members_list, messages);
+    firstTime = false;
   });
   socket.on("msg", ({ online, msg }) => {
-    log(yellow(`[${msg.name},${online}] `) + msg.text);
+    messages.push(msg);
+    if (messages.length > 20) messages = messages.slice(-20);
+    render(room, members_list, messages);
   });
   socket.on("leave", ({ name }) => {
-    log(grey(name + " left the room."));
+    members_list = members_list.splice(members_list.indexOf(name),1)
+    render(room, members_list, messages);
   });
 
   createInterface({
@@ -88,6 +86,14 @@ function enter(room, host, name) {
 }
 function help() {
   log(readFileSync(new URL("../help.txt", import.meta.url), "utf-8"));
+}
+function render(room, members, messages) {
+  console.clear();
+  log(yellow(`${room} | ${members.length} | ${members.join(",")}`));
+  for (const msg of messages) {
+    if (msg.system) log(grey(msg.text));
+    else log(yellow(`[${msg.name}] `) + msg.text);
+  }
 }
 function parseArgs(args) {
   const options = {};

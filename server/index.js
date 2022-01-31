@@ -33,7 +33,9 @@ io.on("connection", (socket) => {
   socket.on("msg", (msg) => {
     console.log(msg.name + ": " + msg.text);
     msgs.push(msg);
-    if (msgs.length > 10) msgs = msgs.slice(-10);
+    if (msgs.length > 10) {
+      msgs = msgs.slice(-10);
+    }
     const online = Object.values(members).length;
     io.emit("msg", { online, msg });
   });

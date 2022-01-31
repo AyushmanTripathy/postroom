@@ -1,0 +1,18 @@
+DONE
+----
+
+TODO
+----
+
+server
+  fix the load time.
+
+pwa
+  make it a pwa
+  chat room
+  home page
+
+cli
+  better ui.
+  manage room and username.
+  polishing.

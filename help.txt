@@ -1,0 +1,11 @@
+POSTROOM
+--------
+a cli chat app.
+
+options
+  -h : help
+
+postroom <room_name>
+
+github - https://github.com/AyushmanTripathy/postroom
+thank you for using postroom.

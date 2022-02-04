@@ -15,6 +15,7 @@
     "chat app"
   ],
   "author": "Ayushman Tripathy",
+  "homepage": "https://github.com/AyushmanTripathy/postroom",
   "license": "MIT",
   "dependencies": {
     "btss": "^1.1.0",
